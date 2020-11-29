@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import generateStore from './Redux/store';
+/*Components*/
+import Layout from "./Components/Layout/Layout";
+import Header from "./Components/Header/Header";
+import Search from "./Components/Search/Search";
+/*Components*/
+/*Pages*/
+import Gifs from "./Pages/Gifs";
+import Home from "./Pages/Home";
+import Details from './Pages/Details';
+import Trending from './Pages/Trending'
+import Favorites from "./Pages/Favorites";
+/*Pages*/
 function App() {
+  const store = generateStore();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout>
+        <Header />
+        <Search />
+        <Provider store={store} >
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/gifs/:keyword" component={Gifs} />
+            <Route path="/gif/:id" component={Details} />
+            <Route path="/trends" component={Trending} />
+            <Route path="/favorites" component={Favorites} />
+          </Switch>
+        </Provider>
+      </Layout>
     </div>
   );
 }
